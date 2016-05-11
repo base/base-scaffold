@@ -1,6 +1,6 @@
 {
   "name": "base-scaffold",
-  "description": "Base plugin that adds support for generating files from declarative scaffold configurations.",
+  "description": "Base plugin that adds support for generating files from a declarative scaffold configuration.",
   "version": "0.1.0",
   "homepage": "https://github.com/node-base/base-scaffold",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
@@ -19,22 +19,49 @@
   "scripts": {
     "test": "mocha"
   },
-  "dependencies": {},
+  "dependencies": {
+    "async": "^1.5.2",
+    "base-files-each": "^0.1.1",
+    "debug": "^2.2.0",
+    "merge-stream": "^1.0.0"
+  },
   "devDependencies": {
+    "base": "^0.8.1",
+    "base-fs": "^0.3.1",
+    "base-option": "^0.7.0",
+    "base-pipeline": "^0.2.5",
     "gulp-format-md": "*",
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "rimraf": "^2.5.2",
+    "scaffold": "^0.2.5",
+    "through2": "^2.0.1"
   },
   "keywords": [],
   "verb": {
+    "toc": false,
     "layout": "default",
+    "tasks": [
+      "readme"
+    ],
     "plugins": [
       "gulp-format-md"
     ],
     "related": {
-      "list": []
+      "base": [
+        "assemble",
+        "generate",
+        "update",
+        "verb"
+      ]
     },
     "reflinks": [
-      "verb"
-    ]
+      "base",
+      "scaffold",
+      "verb",
+      "generate"
+    ],
+    "lint": {
+      "reflinks": true
+    }
   }
 }
