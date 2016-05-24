@@ -7,13 +7,9 @@ var assert = require('assert');
 var rimraf = require('rimraf');
 var through = require('through2');
 var Scaffold = require('scaffold');
-var pipeline = require('base-pipeline');
-var option = require('base-option');
-var vfs = require('base-fs');
-var App = require('base');
 var plugin = require('./')
-var scaffold;
-var app;
+var App = require('base-app');
+var app, scaffold;
 
 var fixtures = path.join(__dirname, 'fixtures');
 var actual = path.join(__dirname, 'actual');
@@ -41,9 +37,6 @@ describe('scaffolds', function() {
   beforeEach(function() {
     app = new App();
     app.isApp = true;
-    app.use(option());
-    app.use(vfs());
-    app.use(pipeline());
     app.use(plugin());
   });
 
@@ -159,9 +152,6 @@ describe('scaffolds', function() {
     beforeEach(function() {
       app = new App();
       app.isApp = true;
-      app.use(option());
-      app.use(vfs());
-      app.use(pipeline());
       app.use(plugin());
     });
 

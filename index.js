@@ -7,16 +7,14 @@
 
 'use strict';
 
-var async = require('async');
 var debug = require('debug')('base-scaffold');
-var each = require('base-files-each');
-var ms = require('merge-stream');
+var utils = require('./utils');
 
 module.exports = function(config) {
   return function(app) {
-    if (!this.isApp || this.isRegistered('base-scaffold')) return;
+    if (!utils.isValid(this)) return;
     debug('initializing "%s", from "%s"', __filename, module.parent.id);
-    this.use(each());
+    this.use(utils.each());
 
     /**
      * Generate files from a declarative [scaffold][] configuration and return a stream.
@@ -53,7 +51,12 @@ module.exports = function(config) {
         return this.scaffoldStream(scaffold, options);
       }
 
-      async.eachOf(scaffold, function(target, name, next) {
+      this.run(scaffold);
+      var keys = Object.keys(scaffold);
+
+      utils.eachSeries(keys, function(key, next) {
+        var target = scaffold[key];
+        scaffold.run(target);
         if (!target.files) {
           next();
           return;
@@ -91,13 +94,18 @@ module.exports = function(config) {
 
     this.define('scaffoldStream', function(scaffold, options) {
       var streams = [];
+
+      this.run(scaffold);
       for (var name in scaffold) {
         var target = scaffold[name];
+        scaffold.run(target);
+
         if (target.files) {
           streams.push(this.eachStream(target, options));
         }
       }
-      var stream = ms.apply(ms, streams);
+
+      var stream = utils.ms.apply(utils.ms, streams);
       stream.on('finish', stream.emit.bind(stream, 'end'));
       return stream;
     });
