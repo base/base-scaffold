@@ -41,7 +41,7 @@ module.exports = function(config) {
      * @api public
      */
 
-    this.define('scaffold', function(scaffold, options, cb) {
+    this.define('scaffoldSeries', function(scaffold, options, cb) {
       if (typeof options === 'function') {
         cb = options;
         options = {};
@@ -110,5 +110,6 @@ module.exports = function(config) {
       return stream;
     });
 
+    this.define('scaffold', this.scaffoldSeries);
   };
 };
