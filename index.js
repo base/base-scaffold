@@ -7,17 +7,20 @@
 
 'use strict';
 
-var debug = require('debug')('base-scaffold');
 var utils = require('./utils');
 
 module.exports = function(config) {
   return function(app) {
-    if (!utils.isValid(this)) return;
-    debug('initializing "%s", from "%s"', __filename, module.parent.id);
+    if (!utils.isValid(this, 'base-scaffold')) return;
+
+    /**
+     * Register `base-files-each` plugin
+     */
+
     this.use(utils.each());
 
     /**
-     * Generate files from a declarative [scaffold][] configuration and return a stream.
+     * Asynchronously generate files from a declarative [scaffold][] configuration.
      *
      * ```js
      * var Scaffold = require('scaffold');
@@ -55,6 +58,11 @@ module.exports = function(config) {
       var keys = Object.keys(scaffold);
 
       utils.eachSeries(keys, function(key, next) {
+        if (!scaffold.hasOwnProperty(key)) {
+          next();
+          return;
+        }
+
         var target = scaffold[key];
         scaffold.run(target);
         if (!target.files) {
@@ -97,11 +105,13 @@ module.exports = function(config) {
 
       this.run(scaffold);
       for (var name in scaffold) {
-        var target = scaffold[name];
-        scaffold.run(target);
+        if (scaffold.hasOwnProperty(name)) {
+          var target = scaffold[name];
+          scaffold.run(target);
 
-        if (target.files) {
-          streams.push(this.eachStream(target, options));
+          if (target.files) {
+            streams.push(this.eachStream(target, options));
+          }
         }
       }
 
@@ -110,6 +120,9 @@ module.exports = function(config) {
       return stream;
     });
 
+    // alias the `scaffoldSeries` method. We do this so that `.scaffold`
+    // call be used by default, while also allowing this method to be overridden
+    // and customized (this is done in `generate-scaffold`)
     this.define('scaffold', this.scaffoldSeries);
   };
 };
