@@ -55,15 +55,16 @@ module.exports = function(config) {
       }
 
       this.run(scaffold);
-      var keys = Object.keys(scaffold);
+      var targets = scaffold.targets;
+      var keys = Object.keys(targets);
 
       utils.eachSeries(keys, function(key, next) {
-        if (!scaffold.hasOwnProperty(key)) {
+        if (!targets.hasOwnProperty(key)) {
           next();
           return;
         }
 
-        var target = scaffold[key];
+        var target = targets[key];
         scaffold.run(target);
         if (!target.files) {
           next();
@@ -100,13 +101,14 @@ module.exports = function(config) {
      * @api public
      */
 
-    this.define('scaffoldStream', function(scaffold, options) {
+    this.define('scaffoldStream', function(scaffold, options, cb) {
       var streams = [];
 
       this.run(scaffold);
-      for (var name in scaffold) {
-        if (scaffold.hasOwnProperty(name)) {
-          var target = scaffold[name];
+      var targets = scaffold.targets;
+      for (var name in targets) {
+        if (targets.hasOwnProperty(name)) {
+          var target = targets[name];
           scaffold.run(target);
 
           if (target.files) {
