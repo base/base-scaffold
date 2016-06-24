@@ -23,16 +23,16 @@
   "dependencies": {
     "async-each-series": "^1.1.0",
     "base-files-each": "^0.1.3",
-    "is-valid-app": "^0.1.1",
+    "is-valid-app": "^0.1.2",
     "lazy-cache": "^2.0.1",
     "merge-stream": "^1.0.0"
   },
   "devDependencies": {
-    "base-app": "^0.2.3",
+    "base-app": "^0.2.5",
     "gulp-format-md": "^0.1.9",
-    "mocha": "^2.4.5",
+    "mocha": "^2.5.3",
     "rimraf": "^2.5.2",
-    "scaffold": "^0.2.6",
+    "scaffold": "^0.2.7",
     "through2": "^2.0.1"
   },
   "keywords": [
@@ -69,9 +69,10 @@
     },
     "reflinks": [
       "base",
+      "generate",
       "scaffold",
       "verb",
-      "generate"
+      "verb-readme-generator"
     ],
     "lint": {
       "reflinks": true
