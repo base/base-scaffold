@@ -23,17 +23,21 @@
   "dependencies": {
     "async-each-series": "^1.1.0",
     "base-files-each": "^0.1.3",
+    "extend-shallow": "^2.0.1",
+    "for-own": "^0.1.4",
+    "is-scaffold": "^0.1.1",
     "is-valid-app": "^0.1.2",
+    "isobject": "^2.1.0",
+    "kind-of": "^3.0.3",
     "lazy-cache": "^2.0.1",
-    "merge-stream": "^1.0.0"
+    "merge-stream": "^1.0.0",
+    "mixin-deep": "^1.1.3",
+    "scaffold": "^0.2.11"
   },
   "devDependencies": {
-    "base-app": "^0.2.5",
+    "base-app": "^0.2.6",
     "gulp-format-md": "^0.1.9",
-    "mocha": "^2.5.3",
-    "rimraf": "^2.5.2",
-    "scaffold": "^0.2.7",
-    "through2": "^2.0.1"
+    "mocha": "^2.5.3"
   },
   "keywords": [
     "base",
