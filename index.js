@@ -141,7 +141,7 @@ module.exports = function(config) {
        */
 
       getScaffold: function(name, options) {
-        var opts = utils.merge({name: name}, this.options);
+        var opts = utils.merge({name: name}, this.options, options);
         var config;
 
         switch (utils.typeOf(name)) {
