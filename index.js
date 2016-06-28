@@ -18,32 +18,10 @@ module.exports = function(config) {
     var self = this;
 
     /**
-     * Register the `base-files-each` plugin
-     */
-
-    this.use(utils.each());
-
-    /**
      * Create the cache for storing scaffolds
      */
 
     this.scaffolds = this.scaffolds || {};
-
-    /**
-     * Listen for scaffolds and create tasks for the targets on each scaffold
-     */
-
-    this.on('scaffold', function(scaffold) {
-      self.register(scaffold.name, function(gen) {
-        var keys = Object.keys(scaffold.targets);
-        keys.forEach(function(key) {
-          gen.task(key, function(cb) {
-            self.each(scaffold.targets[key], cb);
-          });
-        });
-        gen.task('default', keys);
-      });
-    });
 
     /**
      * Add methods to the API
@@ -226,114 +204,8 @@ module.exports = function(config) {
           config.on('target', this.emit.bind(this, 'target'));
           this.emit('scaffold', config);
         }
-
-        decorate(this, config);
         return config;
       }
-    });
-
-    /**
-     * Asynchronously generate files from a declarative [scaffold][] configuration.
-     *
-     * ```js
-     * var Scaffold = require('scaffold');
-     * var scaffold = new Scaffold({
-     *   options: {cwd: 'source'},
-     *   posts: {
-     *     src: ['content/*.md']
-     *   },
-     *   pages: {
-     *     src: ['templates/*.hbs']
-     *   }
-     * });
-     *
-     * app.scaffold(scaffold, function(err) {
-     *   if (err) console.log(err);
-     * });
-     * ```
-     * @name .scaffold
-     * @param {Object} `scaffold` Scaffold configuration object.
-     * @param {Function} `cb` Optional callback function. If not passed, `.scaffoldStream` will be called and a stream will be returned.
-     * @api public
-     */
-
-    this.define('scaffoldSeries', function(config, options, cb) {
-      if (typeof options === 'function') {
-        cb = options;
-        options = {};
-      }
-
-      if (typeof cb !== 'function') {
-        return this.scaffoldStream(config, options);
-      }
-
-      var scaffold = this.getScaffold(config);
-      this.run(scaffold);
-      var targets = scaffold.targets;
-      var keys = Object.keys(targets);
-
-      utils.eachSeries(keys, function(key, next) {
-        if (!targets.hasOwnProperty(key)) {
-          next();
-          return;
-        }
-
-        var target = targets[key];
-        scaffold.run(target);
-        if (!target.files) {
-          next();
-          return;
-        }
-        this.each(target, options, next);
-      }.bind(this), cb);
-    });
-
-    /**
-     * Generate files from a declarative [scaffold][] configuration.
-     *
-     * ```js
-     * var Scaffold = require('scaffold');
-     * var scaffold = new Scaffold({
-     *   options: {cwd: 'source'},
-     *   posts: {
-     *     src: ['content/*.md']
-     *   },
-     *   pages: {
-     *     src: ['templates/*.hbs']
-     *   }
-     * });
-     *
-     * app.scaffoldStream(scaffold)
-     *   .on('error', console.error)
-     *   .on('end', function() {
-     *     console.log('done!');
-     *   });
-     * ```
-     * @name .scaffoldStream
-     * @param {Object} `scaffold` [scaffold][] configuration object.
-     * @return {Stream} returns a stream with all processed files.
-     * @api public
-     */
-
-    this.define('scaffoldStream', function(scaffold, options, cb) {
-      var streams = [];
-
-      this.run(scaffold);
-      var targets = scaffold.targets;
-      for (var name in targets) {
-        if (targets.hasOwnProperty(name)) {
-          var target = targets[name];
-          scaffold.run(target);
-
-          if (target.files) {
-            streams.push(this.eachStream(target, options));
-          }
-        }
-      }
-
-      var stream = utils.ms.apply(utils.ms, streams);
-      stream.on('finish', stream.emit.bind(stream, 'end'));
-      return stream;
     });
 
     /**
@@ -382,34 +254,3 @@ module.exports = function(config) {
     return fn;
   };
 };
-
-/**
- * Decorate the given scaffold with "generate" methods
- */
-
-function decorate(app, scaffold) {
-  if (typeof scaffold.generate === 'function') return;
-
-  scaffold.define('generate', function(options, cb) {
-    if (typeof options === 'function') {
-      cb = options;
-      options = {};
-    }
-    if (typeof cb === 'function') {
-      return this.generateSeries.apply(this, arguments);
-    }
-    return this.generateStream.apply(this, arguments);
-  });
-
-  scaffold.define('generateSeries', function(options, cb) {
-    var args = [].slice.call(arguments);
-    args.unshift(this);
-    return app.scaffoldSeries.apply(app, args);
-  });
-
-  scaffold.define('generateStream', function() {
-    var args = [].slice.call(arguments);
-    args.unshift(this);
-    return app.scaffoldStream.apply(app, args);
-  });
-}
