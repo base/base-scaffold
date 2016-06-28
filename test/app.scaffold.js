@@ -25,36 +25,32 @@ describe('.scaffold', function() {
 
   describe('properties', function() {
     it('should set `scaffold.name` when defined as a function', function() {
-      app.scaffold('abc', function(options) {
+      scaffold = app.scaffold('abc', function(options) {
         return {
           options: options,
           foo: {src: 'b.txt'}
         }
       });
-      scaffold = app.scaffold('abc');
       assert.strictEqual(scaffold.name, 'abc');
     });
 
     it('should set `scaffold.name` when defined as a function with an instance of Scaffold', function() {
-      app.scaffold('abc', function(options) {
+      scaffold = app.scaffold('abc', function(options) {
         return new Scaffold({
           options: options,
           foo: {src: 'b.txt'}
         });
       });
-      scaffold = app.scaffold('abc');
       assert.strictEqual(scaffold.name, 'abc');
     });
 
     it('should set `scaffold.name` when defined as a plain object', function() {
-      app.scaffold('abc', {foo: {src: 'b.txt'}});
-      scaffold = app.scaffold('abc');
+      scaffold = app.scaffold('abc', {foo: {src: 'b.txt'}});
       assert.strictEqual(scaffold.name, 'abc');
     });
 
     it('should set `scaffold.name` when defined as an instance of Scaffold', function() {
-      app.scaffold('abc', new Scaffold({foo: {src: 'b.txt'}}));
-      scaffold = app.scaffold('abc');
+      scaffold = app.scaffold('abc', new Scaffold({foo: {src: 'b.txt'}}));
       assert.strictEqual(scaffold.name, 'abc');
     });
   });
@@ -66,14 +62,13 @@ describe('.scaffold', function() {
         count++;
       });
 
-      app.scaffold('abc', function(options) {
+      scaffold = app.scaffold('abc', function(options) {
         return {
           options: options,
           foo: {src: 'b.txt'}
         }
       });
 
-      scaffold = app.scaffold('abc');
       assert.equal(count, 1);
     });
 
@@ -84,14 +79,13 @@ describe('.scaffold', function() {
         count++;
       });
 
-      app.scaffold('abc', function(options) {
+      scaffold = app.scaffold('abc', function(options) {
         return {
           options: options,
           foo: {src: 'b.txt'}
         }
       });
 
-      scaffold = app.scaffold('abc');
       assert.equal(count, 1);
     });
 
@@ -101,14 +95,13 @@ describe('.scaffold', function() {
         count++;
       });
 
-      app.scaffold('abc', function(options) {
+      scaffold = app.scaffold('abc', function(options) {
         return new Scaffold({
           options: options,
           foo: {src: 'b.txt'}
         });
       });
 
-      scaffold = app.scaffold('abc');
       assert.equal(count, 1);
     });
 
@@ -119,13 +112,13 @@ describe('.scaffold', function() {
         count++;
       });
 
-      app.scaffold('abc', function(options) {
+      scaffold = app.scaffold('abc', function(options) {
         return new Scaffold({
           options: options,
           foo: {src: 'b.txt'}
         });
       });
-      scaffold = app.scaffold('abc');
+
       assert.equal(count, 1);
     });
 
@@ -136,8 +129,7 @@ describe('.scaffold', function() {
         count++;
       });
 
-      app.scaffold('abc', {foo: {src: 'b.txt'}});
-      scaffold = app.scaffold('abc');
+      scaffold = app.scaffold('abc', {foo: {src: 'b.txt'}});
       assert.equal(count, 1);
     });
 
@@ -148,14 +140,13 @@ describe('.scaffold', function() {
         count++;
       });
 
-      app.scaffold('abc', new Scaffold({foo: {src: 'b.txt'}}));
-      scaffold = app.scaffold('abc');
+      scaffold = app.scaffold('abc', new Scaffold({foo: {src: 'b.txt'}}));
       assert.equal(count, 1);
     });
   });
 
   describe('plain object', function() {
-    it('should get a scaffold from `app.scaffolds`', function() {
+    it('should get a scaffold from `app.scaffold`', function() {
       app.scaffold('abc', {foo: {src: 'b.txt'}});
       assert(isObject(app.scaffold('abc')));
       assert.strictEqual(app.scaffold('abc').name, 'abc');
