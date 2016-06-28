@@ -18,52 +18,6 @@ Can be used with any [base](https://github.com/node-base/base) application. See 
 var scaffold = require('base-scaffold');
 ```
 
-## Example
-
-This example shows [generate](https://github.com/generate/generate), but this plugin can be used with any [base](https://github.com/node-base/base) application.
-
-```js
-var Generate = require('generate');
-var Scaffold = require('scaffold');
-var scaffold = new Scaffold();
-var app = generate();
-
-/**
- * Add a basic "target" to our scaffold. Scaffolds are like
- * grunt "tasks" and can have any number of targets
- */
-
-scaffold.addTarget('abc', {
-  options: {
-    pipeline: generate.renderFile,
-    data: {
-      site: { title: 'My Blog' }
-    }
-  },
-  src: 'templates/*.hbs',
-  dest: 'site',
-});
-
-/**
- * Template engine for rendering handlebars templates
- */
-
-app.engine('hbs', require('engine-handlebars'));
-
-/**
- * Generate the scaffold!
- */
-
-app.scaffold(scaffold)
-  .on('error', console.error)
-  .on('data', console.log)
-  .on('end', function() {
-    console.log('done!');
-  });
-```
-
-See the [scaffold](https://github.com/jonschlinkert/scaffold) library for additional information.
-
 ## API
 
 ### [.isScaffold](index.js#L50)
@@ -173,9 +127,9 @@ var scaffold = new app.Scaffold();
 
 The following projects are built on [base](https://github.com/node-base/base).
 
-* [update](https://www.npmjs.com/package/update): Easily keep anything in your project up-to-date by installing the updaters you want to use… [more](https://github.com/update/update) | [homepage](https://github.com/update/update "Easily keep anything in your project up-to-date by installing the updaters you want to use and running `update` in the command line! Update the copyright date, licence type, ensure that a project uses your latest eslint or jshint configuration, remove dep")
-* [generate](https://www.npmjs.com/package/generate): The Santa Claus machine for GitHub projects. Scaffolds out new projects, or creates any kind… [more](https://github.com/generate/generate) | [homepage](https://github.com/generate/generate "The Santa Claus machine for GitHub projects. Scaffolds out new projects, or creates any kind of required file or document from any given templates or source materials.")
 * [assemble](https://www.npmjs.com/package/assemble): Assemble is a powerful, extendable and easy to use static site generator for node.js. Used… [more](https://github.com/assemble/assemble) | [homepage](https://github.com/assemble/assemble "Assemble is a powerful, extendable and easy to use static site generator for node.js. Used by thousands of projects for much more than building websites, Assemble is also used for creating themes, scaffolds, boilerplates, e-books, UI components, API docum")
+* [generate](https://www.npmjs.com/package/generate): The Santa Claus machine for GitHub projects. Scaffolds out new projects, or creates any kind… [more](https://github.com/generate/generate) | [homepage](https://github.com/generate/generate "The Santa Claus machine for GitHub projects. Scaffolds out new projects, or creates any kind of required file or document from any given templates or source materials.")
+* [update](https://www.npmjs.com/package/update): Easily keep anything in your project up-to-date by installing the updaters you want to use… [more](https://github.com/update/update) | [homepage](https://github.com/update/update "Easily keep anything in your project up-to-date by installing the updaters you want to use and running `update` in the command line! Update the copyright date, licence type, ensure that a project uses your latest eslint or jshint configuration, remove dep")
 * [verb](https://www.npmjs.com/package/verb): Documentation generator for GitHub projects. Verb is extremely powerful, easy to use, and is used… [more](https://github.com/verbose/verb) | [homepage](https://github.com/verbose/verb "Documentation generator for GitHub projects. Verb is extremely powerful, easy to use, and is used on hundreds of projects of all sizes to generate everything from API docs to readmes.")
 
 ## Contributing
