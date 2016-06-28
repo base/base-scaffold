@@ -1,11 +1,14 @@
 'use strict';
 
-var forOwn = require('for-own');
-var scaffold = require('./');
 var Base = require('base-app');
+var each = require('base-files-each');
+var forOwn = require('for-own');
+
+var scaffold = require('./');
 var base = new Base({isApp: true});
 
 base.use(scaffold());
+base.use(each());
 
 // base.on('scaffold.set', function(name, scaffold) {
 //   scaffold = base.getScaffold(name);
