@@ -141,7 +141,7 @@ module.exports = function(config) {
        */
 
       getScaffold: function(name, options) {
-        var opts = utils.merge({name: name}, this.options, options);
+        var opts = utils.merge({}, this.options, options);
         var config;
 
         switch (utils.typeOf(name)) {
@@ -154,6 +154,7 @@ module.exports = function(config) {
             break;
           case 'string':
           default: {
+            opts.name = name;
             config = this.scaffolds[name];
             if (typeof config === 'undefined') {
               throw new Error(`scaffold "${name}" is not registered`);
