@@ -1,7 +1,7 @@
 {
   "name": "base-scaffold",
   "description": "Base plugin that adds support for generating files from a declarative scaffold configuration.",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "homepage": "https://github.com/node-base/base-scaffold",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "repository": "node-base/base-scaffold",
